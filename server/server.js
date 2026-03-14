@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Routes
+// API Routes
 app.use('/api/contact', require('./routes/contact'));
 app.use('/api/projects', require('./routes/projects'));
 app.use('/api/admin', require('./routes/admin'));
@@ -28,6 +28,14 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Serve static files from client folder
+app.use(express.static(path.join(__dirname, '../client')));
+
+// Catch all handler: send back the index.html file for any non-API routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/index.html'));
+});
+
 // MongoDB connection (optional - will work without MongoDB)
 if (process.env.MONGODB_URI) {
   mongoose.connect(process.env.MONGODB_URI)
@@ -37,22 +45,9 @@ if (process.env.MONGODB_URI) {
   console.log('MongoDB not configured - running without database');
 }
 
-// Serve static files from client/build in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/build')));
-  
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
-  });
-} else {
-  // In development, serve from client/src (without build)
-  app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/public/index.html'));
-  });
-}
-
 const PORT = process.env.PORT || 5001;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+  console.log(`Frontend served from: ${path.join(__dirname, '../client')}`);
 });
