@@ -5,12 +5,13 @@
   "main": "server/server.js",
   "scripts": {
     "start": "node server/server.js",
-    "build": "echo 'Build complete - static files ready'",
+    "build": "npm run install-all",
     "install-server": "cd server && npm install",
     "install-client": "cd client && npm install",
     "install-all": "npm run install-server && npm run install-client",
     "dev": "cd server && npm run dev",
-    "test": "echo 'No tests specified'"
+    "test": "echo 'No tests specified'",
+    "vercel-build": "npm run install-all"
   },
   "engines": {
     "node": "18.x",
@@ -26,5 +27,12 @@
     "express"
   ],
   "author": "Mesay",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.5.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "nodemailer": "^6.9.4"
+  }
 }

@@ -23,17 +23,10 @@ app.use('/api/admin', require('./routes/admin'));
 app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'ok', 
-    message: 'Backend server is running',
-    timestamp: new Date().toISOString()
+    message: 'Vercel serverless function running',
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development'
   });
-});
-
-// Serve static files from client folder
-app.use(express.static(path.join(__dirname, '../client')));
-
-// Catch all handler: send back the index.html file for any non-API routes
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/index.html'));
 });
 
 // MongoDB connection (optional - will work without MongoDB)
@@ -45,9 +38,13 @@ if (process.env.MONGODB_URI) {
   console.log('MongoDB not configured - running without database');
 }
 
-const PORT = process.env.PORT || 5001;
+// For Vercel serverless functions, we export the app
+module.exports = app;
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log(`Frontend served from: ${path.join(__dirname, '../client')}`);
-});
+// For local development
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 5001;
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}

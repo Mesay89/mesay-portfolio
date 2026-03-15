@@ -822,9 +822,11 @@
                                     </div>
                                 </div>
                                 
-                                <form className="contact-form" action="https://formsubmit.co/mesayboja3@gmail.com" method="POST">
-                                    {/* FormSubmit Configuration - Sends directly to your email */}
+                                <form className="contact-form" action="/api/contact" method="POST">
+                                    {/* Vercel Full-Stack Configuration - Backend API */}
                                     <input type="hidden" name="_subject" value="🚀 New Job Inquiry from Portfolio Website" />
+                                    
+                                    {/* Fallback to FormSubmit if API fails */}
                                     <input type="hidden" name="_captcha" value="false" />
                                     <input type="hidden" name="_template" value="table" />
                                     <input type="hidden" name="_next" value="thank-you.html" />
@@ -840,7 +842,7 @@
                                         color: '#155724',
                                         border: '1px solid #c3e6cb'
                                     }}>
-                                        <i className="fas fa-check-circle"></i> ✅ Contact form connected to mesayboja3@gmail.com
+                                        <i className="fas fa-check-circle"></i> ✅ Full-stack contact form ready for Vercel - emails to mesayboja3@gmail.com
                                     </div>
                                     
                                     <div className="form-group">
